@@ -1,8 +1,7 @@
 # Raspberry Pi slave library for Arduino with VL6180X sensor attached to I2C bus
 
-Version: 2.0.0<br>
-Release date: 2017 March 31<br>
-[![Build Status](https://travis-ci.org/pololu/pololu-rpi-slave-arduino-library.svg?branch=master)](https://travis-ci.org/pololu/pololu-rpi-slave-arduino-library)<br>
+Version: 2.1.0 (forked)<br>
+Release date: 2019 Feb 3<br>
 [www.pololu.com](https://www.pololu.com/)
 
 Summary
@@ -58,7 +57,7 @@ we have slowed down reads significantly.
 Version history
 ---------------
 
-* 2.1.0 (2019 Feb 3) Forked code from [here](https://github.com/pololu/pololu-rpi-slave-arduino-library/tree/balboa).
+* 2.1.0 (2019 Feb 3) Forked code from Pololu "balboa" tree found [here](https://github.com/pololu/pololu-rpi-slave-arduino-library/tree/balboa).
 * 2.0.0 (2017 Mar 31): Added support for encoder counts and slave sketch for the Romi 32U4 robot. Updated Raspberry Pi scripts to use Python 3 instead of Python 2.
 * 1.0.1 (2017 Jan 23): Added and adjusted delays necessary for reliable operation on the Pi 3.
 * 1.0.0 (2016 Feb 16): Original release.
