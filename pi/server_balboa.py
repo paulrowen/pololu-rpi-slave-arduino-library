@@ -8,11 +8,25 @@ from subprocess import call
 app = Flask(__name__, static_folder='server_balboa_resources/static', template_folder='server_balboa_resources/templates')
 app.debug = True
 
+import sys
+
 from a_star import AStar
 a_star = AStar()
 
+from ST_VL6180X import VL6180X
+
+debug = False
+
+tof_address = 0x29
+tof_sensor = VL6180X(address=tof_address, debug=debug)
+# apply pre calibrated offset
+tof_sensor.set_range_offset(23)
+tof_sensor.default_settings()
+
 from balance import Balancer
 balancer = Balancer()
+
+tof_distance = 255
 
 import json
 
@@ -31,12 +45,16 @@ def status():
     battery_millivolts = a_star.read_battery_millivolts()
     encoders = a_star.read_encoders()
     calibrated = balancer.calibrated
+    tof_distance = tof_sensor.get_distance()
+    tof_lux = round(tof_sensor.get_ambient_light(20), 2)
     data = {
         "buttons": buttons,
         "battery_millivolts": battery_millivolts,
         "analog": analog,
         "encoders": encoders,
-        "calibrated": calibrated
+        "calibrated": calibrated,
+        "tof_distance": tof_distance,
+        "tof_lux": tof_lux
     }
     return json.dumps(data)
 
@@ -50,6 +68,22 @@ def calibrate():
 def stand_up():
     balancer.stand_up()
     return ""
+
+@app.route("/drive_test")
+def drive_test():
+    tof_distance = tof_sensor.get_distance()
+    if (tof_distance > 254):
+        # move forwards until an object appears
+        drive(-10,-10)
+        tof_distance = tof_sensor.get_distance()      
+    elif (tof_distance < 255):
+        play_notes("l16def>d")
+        # then turn
+        drive(-10,10)
+        time.sleep(0.2)
+        #then drive forwards
+        drive(-10,-10)
+        tof_distance = tof_sensor.get_distance()
 
 @app.route("/drive/<left>,<right>")
 def drive(left, right):
