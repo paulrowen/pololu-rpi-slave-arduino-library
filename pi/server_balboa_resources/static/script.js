@@ -40,6 +40,10 @@ function update_status(json) {
   
   $("#encoders0").html(s["encoders"][0])
   $("#encoders1").html(s["encoders"][1])
+  
+  //VL6180X sensor code binding   
+  $("#tof_distance").html(s["tof_distance"])
+  $("#tof_lux").html(s["tof_lux"])
 
   if(!calibrated && s["calibrated"])
   {
