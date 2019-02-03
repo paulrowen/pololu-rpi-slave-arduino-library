@@ -1,4 +1,4 @@
-# Raspberry Pi slave library for Arduino
+# Raspberry Pi slave library for Arduino with VL6180X sensor attached to I2C bus
 
 Version: 2.0.0<br>
 Release date: 2017 March 31<br>
@@ -8,13 +8,13 @@ Release date: 2017 March 31<br>
 Summary
 -------
 
-This is an Arduino library that helps establish I<sup>2</sup>C communication with
-a Raspberry Pi, with the Arduino acting as the I<sup>2</sup>C slave.  It should
+This is a port of the Pololu 32U4 Balboa code to add VL6180X support for the Raspberry Pi via the Pi's GPIO header, with the Arduino acting as the I<sup>2</sup>C slave.  It should
 work with most Arduino-compatible boards, but we designed it for use
 with these Pololu products:
 
 * [A-Star 32U4 Robot Controller LV](https://www.pololu.com/product/3117) or [SV](https://www.pololu.com/product/3119)
 * [Romi 32U4 Control Board](https://www.pololu.com/product/3544)
+* [VL6180X Python3 port](https://github.com/HeMe2/RPI_ST-VL6180X-Python3)
 
 These boards are designed to connect conveniently to the Pi's GPIO header.  The
 idea is that the Raspberry Pi can take care of high-level tasks like video
@@ -34,11 +34,6 @@ just recommending the standard Arduino I<sup>2</sup>C library, Wire.h:
   that corrupts data except at very low speeds.  The standard Arduino
   I<sup>2</sup>C library, Wire.h, is not flexible enough to allow us to follow
   the suggested workarounds (delays inserted at key points).
-
-We have included example Arduino code for the A-Star or Romi and Python code
-for the Raspberry Pi.  Together, the examples set up a web server on
-the Raspberry Pi that will let you remotely control and monitor a
-robot from your smartphone or computer.
 
 Getting started
 ---------------
@@ -63,6 +58,7 @@ we have slowed down reads significantly.
 Version history
 ---------------
 
+* 2.1.0 (2019 Feb 3) Forked code from [here](https://github.com/pololu/pololu-rpi-slave-arduino-library/tree/balboa).
 * 2.0.0 (2017 Mar 31): Added support for encoder counts and slave sketch for the Romi 32U4 robot. Updated Raspberry Pi scripts to use Python 3 instead of Python 2.
 * 1.0.1 (2017 Jan 23): Added and adjusted delays necessary for reliable operation on the Pi 3.
 * 1.0.0 (2016 Feb 16): Original release.
