@@ -220,9 +220,9 @@ class Balancer:
     if abs(self.angle_rate) < 2:
       # It's really calm, so assume the robot is resting at 110 degrees from vertical.
       if self.imu.a.z > 0:
-        self.angle = 110
+        self.angle = 90
       else:
-        self.angle = -110
+        self.angle = -90
 
   def reset_encoders(self):
     self.distance_left = 0
