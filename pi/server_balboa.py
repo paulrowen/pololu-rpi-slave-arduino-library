@@ -9,6 +9,7 @@ app = Flask(__name__, static_folder='server_balboa_resources/static', template_f
 app.debug = True
 
 import sys
+import logging
 
 from a_star import AStar
 a_star = AStar()
@@ -33,6 +34,8 @@ import json
 led0_state = False
 led1_state = False
 led2_state = False
+
+logging.basicConfig(format='%(asctime)s %(message)s',filename='32U4balboa-slave.log',level=logging.DEBUG)
 
 @app.route("/")
 def hello():
@@ -72,19 +75,22 @@ def stand_up():
 @app.route("/drive_test")
 def drive_test():
     tof_distance = tof_sensor.get_distance()
-    if (tof_distance > 254):
-        # move forwards until an object appears
-        drive(-10,-10)
-        tof_distance = tof_sensor.get_distance()      
-    elif (tof_distance < 255):
-        play_notes("l16def>d")
-        # then turn
-        drive(-10,10)
-        time.sleep(0.2)
-        #then drive forwards
+    while (tof_distance > 254):
         drive(-10,-10)
         tof_distance = tof_sensor.get_distance()
-
+    logging.debug("Detected object")
+    drive(0,0)
+    logging.debug("Just stopped")
+    drive(10,-10)
+    logging.debug("Turning round through 10,-10")
+    time.sleep(0.2)
+    logging.debug("Just slept for 0.2 seconds")
+    drive(-10,-10)
+    logging.debug("Driving forwards on -10,-10")
+    tof_distance = tof_sensor.get_distance()
+    logging.debug("Taking VL6180X sensor reading")
+    return ""
+    
 @app.route("/drive/<left>,<right>")
 def drive(left, right):
     balancer.drive(int(left), int(right))
